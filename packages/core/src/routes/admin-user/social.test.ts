@@ -34,12 +34,6 @@ const mockedQueries = {
       }
       return mockUser;
     }),
-    updateUserById: jest.fn(
-      async (_, data: Partial<CreateUser>): Promise<User> => ({
-        ...mockUser,
-        ...data,
-      })
-    ),
     hasUserWithIdentity: mockHasUserWithIdentity,
     deleteUserById: jest.fn(),
     deleteUserIdentity: jest.fn(),
@@ -56,6 +50,12 @@ const usersLibraries = {
       },
       { organizationIds: [] },
     ]
+  ),
+  updateUserById: jest.fn(
+    async (_, data: Partial<CreateUser>): Promise<User> => ({
+      ...mockUser,
+      ...data,
+    })
   ),
 } satisfies Partial<Libraries['users']>;
 
@@ -78,7 +78,8 @@ const mockedConnectors = {
   },
 };
 
-const { findUserById, updateUserById, deleteUserIdentity } = mockedQueries.users;
+const { findUserById, deleteUserIdentity } = mockedQueries.users;
+const { updateUserById } = usersLibraries;
 
 const adminUserSocialRoutes = await pickDefault(import('./social.js'));
 

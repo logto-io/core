@@ -17,10 +17,10 @@ export default function userRoutes<T extends AuthedMeRouter>(
 ) {
   const {
     queries: {
-      users: { findUserById, updateUserById },
+      users: { findUserById },
     },
     libraries: {
-      users: { checkIdentifierCollision, verifyUserPassword },
+      users: { checkIdentifierCollision, verifyUserPassword, updateUserById },
       verificationStatuses: { createVerificationStatus, checkVerificationStatus },
     },
   } = tenant;

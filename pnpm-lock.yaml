@@ -3035,8 +3035,8 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       libphonenumber-js:
-        specifier: ^1.10.51
-        version: 1.10.51
+        specifier: ^1.11.1
+        version: 1.11.1
       lint-staged:
         specifier: ^15.0.0
         version: 15.0.2
@@ -3566,6 +3566,9 @@ importers:
       '@logto/schemas':
         specifier: workspace:^1.17.0
         version: link:../schemas
+      '@logto/shared':
+        specifier: workspace:^3.1.0
+        version: link:../shared
       '@parcel/compressor-brotli':
         specifier: 2.9.3
         version: 2.9.3(@parcel/core@2.9.3)
@@ -3687,8 +3690,8 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       libphonenumber-js:
-        specifier: ^1.10.51
-        version: 1.10.51
+        specifier: ^1.11.1
+        version: 1.11.1
       lint-staged:
         specifier: ^15.0.0
         version: 15.0.2
@@ -4015,8 +4018,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       libphonenumber-js:
-        specifier: ^1.9.49
-        version: 1.10.51
+        specifier: ^1.11.1
+        version: 1.11.1
       nanoid:
         specifier: ^5.0.1
         version: 5.0.1
@@ -9900,8 +9903,8 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  libphonenumber-js@1.10.51:
-    resolution: {integrity: sha512-vY2I+rQwrDQzoPds0JeTEpeWzbUJgqoV0O4v31PauHBb/e+1KCXKylHcDnBMgJZ9fH9mErsEbROJY3Z3JtqEmg==}
+  libphonenumber-js@1.11.1:
+    resolution: {integrity: sha512-Wze1LPwcnzvcKGcRHFGFECTaLzxOtujwpf924difr5zniyYv1C2PiW0419qDR7m8lKDxsImu5mwxFuXhXpjmvw==}
 
   lightningcss-darwin-arm64@1.16.1:
     resolution: {integrity: sha512-/J898YSAiGVqdybHdIF3Ao0Hbh2vyVVj5YNm3NznVzTSvkOi3qQCAtO97sfmNz+bSRHXga7ZPLm+89PpOM5gAg==}
@@ -20824,7 +20827,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libphonenumber-js@1.10.51: {}
+  libphonenumber-js@1.11.1: {}
 
   lightningcss-darwin-arm64@1.16.1:
     optional: true
