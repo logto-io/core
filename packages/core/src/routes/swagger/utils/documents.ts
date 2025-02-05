@@ -18,6 +18,7 @@ import { managementApiAuthDescription, userApiAuthDescription } from '../consts.
 import {
   type FindSupplementFilesOptions,
   devFeatureTag,
+  cloudOnlyTag,
   findSupplementFiles,
   pruneSwaggerDocument,
   removeUnnecessaryOperations,
@@ -47,11 +48,18 @@ const managementApiIdentifiableEntityNames = Object.freeze([
   'organization-role',
   'organization-scope',
   'organization-invitation',
+  'saml-application',
 ]);
 
 /** Additional tags that cannot be inferred from the path. */
 const additionalTags = Object.freeze(
-  condArray<string>('Organization applications', 'Custom UI assets', 'Organization users')
+  condArray<string>(
+    'Organization applications',
+    'Custom UI assets',
+    'Organization users',
+    'SAML applications',
+    'SAML applications auth flow'
+  )
 );
 
 export const buildManagementApiBaseDocument = (
@@ -228,12 +236,32 @@ export const getSupplementDocuments = async (
     )
   );
 
-  // Filter out supplement documents that are for dev features when dev features are disabled.
-  const supplementDocuments = allSupplementDocuments.filter(
-    (supplement) =>
-      EnvSet.values.isDevFeaturesEnabled ||
-      !supplement.tags?.find((tag) => tag?.name === devFeatureTag)
-  );
+  const supplementDocuments = allSupplementDocuments.filter((supplement) => {
+    if (EnvSet.values.isIntegrationTest) {
+      return true;
+    }
+
+    const hasDevFeatureTag = supplement.tags?.some((tag) => tag?.name === devFeatureTag) ?? false;
+    const hasCloudOnlyTag = supplement.tags?.some((tag) => tag?.name === cloudOnlyTag) ?? false;
+
+    // 1. Return true if there is no special tag
+    if (!hasDevFeatureTag && !hasCloudOnlyTag) {
+      return true;
+    }
+
+    // 2. devFeatureTag only
+    if (hasDevFeatureTag && !hasCloudOnlyTag) {
+      return EnvSet.values.isDevFeaturesEnabled;
+    }
+
+    // 3. cloudOnlyTag only
+    if (!hasDevFeatureTag && hasCloudOnlyTag) {
+      return EnvSet.values.isCloud;
+    }
+
+    // 4. devFeatureTag and cloudOnlyTag
+    return EnvSet.values.isDevFeaturesEnabled && EnvSet.values.isCloud;
+  });
 
   return supplementDocuments;
 };
