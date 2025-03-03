@@ -36,6 +36,7 @@ const tagMap = new Map([
   ['sso-connector-providers', 'SSO connector providers'],
   ['.well-known', 'Well-known'],
   ['saml-applications', 'SAML applications'],
+  ['one-time-tokens', 'One-time tokens'],
   ['saml', 'SAML applications auth flow'],
 ]);
 
