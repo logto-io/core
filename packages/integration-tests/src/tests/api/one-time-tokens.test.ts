@@ -13,7 +13,7 @@ devFeatureTest.it('should create one time token with default 2 days expiration t
   expect(oneTimeToken.expiresAt).toBeGreaterThan(Date.now());
   expect(oneTimeToken.expiresAt).toBeLessThanOrEqual(Date.now() + 2 * 24 * 60 * 60 * 1000);
   expect(oneTimeToken.status).toBe(OneTimeTokenStatus.Active);
-  expect(oneTimeToken.context).toBe({});
+  expect(oneTimeToken.context).toEqual({});
   expect(oneTimeToken.email).toBe(email);
   expect(oneTimeToken.token.length).toBe(32);
 });
