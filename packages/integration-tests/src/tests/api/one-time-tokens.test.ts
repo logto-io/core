@@ -1,7 +1,7 @@
 import { OneTimeTokenStatus } from '@logto/schemas';
 import { generateStandardId } from '@logto/shared';
 
-import { createOneTimeToken } from '#src/api/one-time-token.js';
+import { createOneTimeToken, verifyOneTimeToken } from '#src/api/one-time-token.js';
 import { devFeatureTest } from '#src/utils.js';
 
 const { it, describe } = devFeatureTest;
@@ -48,5 +48,71 @@ describe('one time tokens API', () => {
       jitOrganizationIds: ['org-1'],
     });
     expect(oneTimeToken.token.length).toBe(32);
+  });
+
+  it('should verify one time token', async () => {
+    const email = `foo${generateStandardId()}@bar.com`;
+    const oneTimeToken = await createOneTimeToken({
+      email,
+      jitOrganizationIds: ['org-1'],
+    });
+
+    const { isValid } = await verifyOneTimeToken({
+      email,
+      token: oneTimeToken.token,
+    });
+
+    expect(isValid).toBe(true);
+  });
+
+  it('should not succeed to verify one time token with expired token', async () => {
+    const email = `foo${generateStandardId()}@bar.com`;
+    const oneTimeToken = await createOneTimeToken({
+      email,
+      jitOrganizationIds: ['org-1'],
+      expiresIn: 1,
+    });
+
+    // Wait for the token to be expired
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+
+    await expect(
+      verifyOneTimeToken({
+        email,
+        token: oneTimeToken.token,
+      })
+    ).rejects.toThrow('one_time_token.token_expired');
+  });
+
+  it('should not succeed to verify one time token wrong email', async () => {
+    const email = `foo${generateStandardId()}@bar.com`;
+    const oneTimeToken = await createOneTimeToken({
+      email,
+      jitOrganizationIds: ['org-1'],
+    });
+
+    await expect(
+      verifyOneTimeToken({
+        email: 'wrong-email@bar.com',
+        token: oneTimeToken.token,
+      })
+    ).rejects.toThrow('one_time_token.active_token_not_found');
+  });
+
+  it('should not succeed to verify one time token wrong token', async () => {
+    const email = `foo${generateStandardId()}@bar.com`;
+    const oneTimeToken = await createOneTimeToken({
+      email,
+      jitOrganizationIds: ['org-1'],
+    });
+
+    await expect(
+      verifyOneTimeToken({
+        email,
+        token: 'wrong-token',
+      })
+    ).rejects.toThrow('one_time_token.active_token_not_found');
   });
 });
