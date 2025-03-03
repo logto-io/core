@@ -36,6 +36,7 @@ import hookRoutes from './hook.js';
 import interactionRoutes from './interaction/index.js';
 import logRoutes from './log.js';
 import logtoConfigRoutes from './logto-config/index.js';
+import oneTimeTokenRoutes from './one-time-tokens.js';
 import organizationRoutes from './organization/index.js';
 import resourceRoutes from './resource.js';
 import resourceScopeRoutes from './resource.scope.js';
@@ -85,6 +86,7 @@ const createRouters = (tenant: TenantContext) => {
   logtoConfigRoutes(managementRouter, tenant);
   connectorRoutes(managementRouter, tenant);
   resourceRoutes(managementRouter, tenant);
+  oneTimeTokenRoutes(managementRouter, tenant);
   resourceScopeRoutes(managementRouter, tenant);
   signInExperiencesRoutes(managementRouter, tenant);
   adminUserRoutes(managementRouter, tenant);
