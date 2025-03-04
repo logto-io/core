@@ -16,7 +16,7 @@ const passwordEncryptionWorker = new Piscina<string, string>({
   // We cannot use `import.meta.url` here because the file structure differs between test and production builds.
   // In production, the file is bundled, while in test mode, the original directory structure is preserved.
   filename: path.join(process.cwd(), 'build/workers/tasks/argon2i.js'),
-  maxThreads: os.availableParallelism() * 0.5,
+  maxThreads: os.availableParallelism() * 0.8,
   // {@link https://piscinajs.dev/api-reference/Instance#constructor-new-piscinaoptions}
 });
 
