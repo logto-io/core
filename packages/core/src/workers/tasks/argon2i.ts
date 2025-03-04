@@ -2,7 +2,6 @@ import crypto from 'node:crypto';
 
 import { argon2i } from 'hash-wasm';
 
-// eslint-disable-next-line import/no-unused-modules
 export default async function argon2iEncrypt(password: string): Promise<string> {
   return argon2i({
     password,

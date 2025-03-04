@@ -3,9 +3,6 @@ import path from 'node:path';
 
 import { Piscina } from 'piscina';
 
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
-
 /**
  * User password encryption worker pool.
  *
@@ -16,7 +13,9 @@ const __dirname = path.dirname(__filename);
  * we use separate thread threads to handle the encryption process.
  */
 const passwordEncryptionWorker = new Piscina<string, string>({
-  filename: path.join(__dirname, './workers/tasks/argon2i.js'),
+  // We cannot use `import.meta.url` here because the file structure differs between test and production builds.
+  // In production, the file is bundled, while in test mode, the original directory structure is preserved.
+  filename: path.join(process.cwd(), 'build/workers/tasks/argon2i.js'),
   maxThreads: os.availableParallelism() * 0.5,
   // {@link https://piscinajs.dev/api-reference/Instance#constructor-new-piscinaoptions}
 });
